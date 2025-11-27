@@ -50,44 +50,169 @@
             background: transparent;
             cursor: none;
         }
+        
+        /* Password screen styles */
+        #password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999999;
+        }
+        
+        .password-box {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+        
+        .password-box h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .password-box input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            background: #222;
+            color: #fff;
+            outline: none;
+            width: 200px;
+        }
+        
+        .password-box input:focus {
+            border-color: #555;
+        }
+        
+        .password-box button {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .password-box button:hover {
+            background: #444;
+        }
+        
+        #error-msg {
+            color: #ff4444;
+            margin-top: 15px;
+            font-family: Arial, sans-serif;
+            min-height: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="fullscreen-container">
-        <img src="image.png" alt="Image">
+    <!-- Password Screen -->
+    <div id="password-screen">
+        <div class="password-box">
+            <h2>Enter Password</h2>
+            <input type="password" id="password-input" placeholder="Password" autofocus>
+            <button id="submit-btn">Submit</button>
+            <p id="error-msg"></p>
+        </div>
     </div>
-    <div class="overlay"></div>
+    
+    <!-- Main Content (hidden until password entered) -->
+    <div id="main-content" style="display: none;">
+        <div class="fullscreen-container">
+            <img src="image.png" alt="Image">
+        </div>
+        <div class="overlay"></div>
+    </div>
     
     <script>
-        // Prevent right-click context menu
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        const PASSWORD = "FREEZER";
+        const passwordScreen = document.getElementById('password-screen');
+        const mainContent = document.getElementById('main-content');
+        const passwordInput = document.getElementById('password-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMsg = document.getElementById('error-msg');
         
-        // Prevent keyboard shortcuts
-        document.addEventListener('keydown', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+        function checkPassword() {
+            if (passwordInput.value === PASSWORD) {
+                passwordScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                initLockdown();
+            } else {
+                errorMsg.textContent = 'Incorrect password';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+        
+        submitBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
         });
         
-        // Prevent all clicks
-        document.addEventListener('click', e => e.preventDefault());
-        document.addEventListener('mousedown', e => e.preventDefault());
-        document.addEventListener('mouseup', e => e.preventDefault());
-        
-        // Prevent touch events
-        document.addEventListener('touchstart', e => e.preventDefault());
-        document.addEventListener('touchend', e => e.preventDefault());
-        document.addEventListener('touchmove', e => e.preventDefault());
-        
-        // Prevent scrolling
-        document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-        document.addEventListener('scroll', e => e.preventDefault());
-        
-        // Prevent selection
-        document.addEventListener('selectstart', e => e.preventDefault());
-        
-        // Disable drag
-        document.addEventListener('dragstart', e => e.preventDefault());
+        function initLockdown() {
+            // Prevent right-click context menu
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            // Prevent keyboard shortcuts
+            document.addEventListener('keydown', e => {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            });
+            
+            // Prevent all clicks
+            document.addEventListener('click', e => e.preventDefault());
+            document.addEventListener('mousedown', e => e.preventDefault());
+            document.addEventListener('mouseup', e => e.preventDefault());
+            
+            // Prevent touch events
+            document.addEventListener('touchstart', e => e.preventDefault());
+            document.addEventListener('touchend', e => e.preventDefault());
+            document.addEventListener('touchmove', e => e.preventDefault());
+            
+            // Prevent scrolling
+            document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+            document.addEventListener('scroll', e => e.preventDefault());
+            
+            // Prevent selection
+            document.addEventListener('selectstart', e => e.preventDefault());
+            
+            // Disable drag
+            document.addEventListener('dragstart', e => e.preventDefault());
+            
+            // Try to enter fullscreen
+            requestFullscreen();
+            
+            // Prevent leaving fullscreen
+            document.addEventListener('fullscreenchange', () => {
+                if (!document.fullscreenElement) {
+                    requestFullscreen();
+                }
+            });
+            
+            // Prevent back navigation
+            history.pushState(null, null, location.href);
+            window.addEventListener('popstate', () => {
+                history.pushState(null, null, location.href);
+            });
+        }
         
         // Try to enter fullscreen on any interaction
         function requestFullscreen() {
@@ -100,23 +225,6 @@
                 elem.msRequestFullscreen();
             }
         }
-        
-        // Attempt fullscreen on first interaction
-        document.addEventListener('click', requestFullscreen, { once: true });
-        document.addEventListener('touchstart', requestFullscreen, { once: true });
-        
-        // Prevent leaving fullscreen
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                requestFullscreen();
-            }
-        });
-        
-        // Prevent back navigation
-        history.pushState(null, null, location.href);
-        window.addEventListener('popstate', () => {
-            history.pushState(null, null, location.href);
-        });
     </script>
 </body>
 </html>
