@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRAU FAO // LAUNCH SEQUENCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff00aa;
+            --void-bg: #030305;
+        }
+
+        body {
+            background-color: var(--void-bg);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* CRT Flicker */
+        .crt-flicker {
+            animation: flicker 0.15s infinite;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            50% { opacity: 1; }
+            100% { opacity: 0.98; }
+        }
+
+        /* Glitch Text */
+        .glitch-text {
+            position: relative;
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--void-bg);
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--neon-cyan);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 30px, 0); transform: translate(2px,0); }
+            20% { clip: rect(80px, 9999px, 100px, 0); transform: translate(-2px,0); }
+            100% { clip: rect(30px, 9999px, 60px, 0); transform: translate(1px,0); }
+        }
+
+        /* Timer Cards */
+        .timer-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: skewX(-10deg);
+            transition: all 0.2s ease;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+        }
+        
+        .timer-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
+            transform: skewX(-10deg) scale(1.05);
+        }
+
+        .timer-val {
+            font-family: 'Syncopate', sans-serif;
+            background: -webkit-linear-gradient(#fff, #aaa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+
+        /* Critical Mode */
+        .critical .timer-val {
+            background: -webkit-linear-gradient(var(--neon-pink), #ff0000);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px var(--neon-pink));
+        }
+        .critical .timer-card {
+            border-color: var(--neon-pink);
+            animation: pulse-red 0.5s infinite alternate;
+        }
+        @keyframes pulse-red {
+            from { box-shadow: 0 0 10px var(--neon-pink); }
+            to { box-shadow: 0 0 40px var(--neon-pink); }
+        }
+
+        /* Particle Canvas */
+        #warp-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* UI Layer */
+        #ui-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1400px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            width: 0%;
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transition: width 0.1s linear;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+    <canvas id="warp-canvas"></canvas>
+
+    <main id="ui-layer" class="flex flex-col items-center p-6 crt-flicker">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-12 relative group">
+            <h2 class="text-neon-cyan tracking-[0.5em] text-sm md:text-lg mb-2 opacity-80 font-bold animate-pulse">
+                SYSTEM STATUS: <span class="text-white">ARMED</span>
+            </h2>
+            <h1 class="glitch-text text-5xl md:text-8xl font-black text-white leading-tight mb-2" data-text="FRAU FAO">
+                FRAU FAO
+            </h1>
+            <h2 class="text-3xl md:text-5xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 transform skew-x-[-10deg]">
+                TEST RELEASE
+            </h2>
+        </div>
+
+        <!-- Timer Grid -->
+        <div id="countdown-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-6xl mx-auto">
+            
+            <!-- Days (Hidden if 0, logic handles this) -->
+            <div class="timer-card p-6 md:p-10 flex flex-col items-center justify-center">
+                <span id="hours" class="timer-val text-6xl md:text-9xl font-black">00</span>
+                <span class="text-xs md:text-sm tracking-[0.3em] text-gray-400 mt-4 uppercase">Hours</span>
+            </div>
+
+            <div class="timer-card p-6 md:p-10 flex flex-col items-center justify-center">
+                <span id="minutes" class="timer-val text-6xl md:text-9xl font-black">00</span>
+                <span class="text-xs md:text-sm tracking-[0.3em] text-gray-400 mt-4 uppercase">Minutes</span>
+            </div>
+
+            <div class="timer-card p-6 md:p-10 flex flex-col items-center justify-center">
+                <span id="seconds" class="timer-val text-6xl md:text-9xl font-black">00</span>
+                <span class="text-xs md:text-sm tracking-[0.3em] text-gray-400 mt-4 uppercase">Seconds</span>
+            </div>
+
+            <div class="timer-card p-6 md:p-10 flex flex-col items-center justify-center bg-white/5 border-l-4 border-cyan-400">
+                <span id="milliseconds" class="timer-val text-5xl md:text-8xl font-black text-cyan-400">000</span>
+                <span class="text-xs md:text-sm tracking-[0.3em] text-cyan-400 mt-4 uppercase">MS_Cycle</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full max-w-6xl">
+            <div class="progress-bar skew-x-[-20deg]">
+                <div id="progress" class="progress-fill"></div>
+            </div>
+            <div class="flex justify-between mt-2 text-xs font-mono text-gray-500 uppercase tracking-widest">
+                <span>Initialization</span>
+                <span id="percent-display">0%</span>
+                <span>Launch</span>
+            </div>
+        </div>
+
+        <!-- Scramble Text Footer -->
+        <div class="mt-16 text-center">
+             <div class="inline-block border border-gray-700 bg-black/50 px-6 py-2 rounded-full backdrop-blur-md">
+                <span class="w-2 h-2 bg-green-500 rounded-full inline-block animate-ping mr-2"></span>
+                <span id="scramble-text" class="font-mono text-xs md:text-sm text-gray-300 tracking-widest">CONNECTING TO SECURE SERVER...</span>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- WARP SPEED CANVAS ---
+        const canvas = document.getElementById('warp-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+        const STAR_COUNT = 400;
+        let speed = 2; // Base speed
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = (Math.random() - 0.5) * width;
+                this.y = (Math.random() - 0.5) * height;
+                this.z = Math.random() * width; // Depth
+                this.pz = this.z; // Previous z for trails
+            }
+            update() {
+                this.z -= speed;
+                if (this.z <= 0) {
+                    this.reset();
+                    this.z = width;
+                    this.pz = this.z;
+                }
+            }
+            draw() {
+                let x = (this.x / this.z) * width * 0.5 + width / 2;
+                let y = (this.y / this.z) * height * 0.5 + height / 2;
+                
+                // Star size grows as it gets closer
+                let r = (1 - this.z / width) * 4;
+
+                // Previous position for trail effect
+                let px = (this.x / this.pz) * width * 0.5 + width / 2;
+                let py = (this.y / this.pz) * height * 0.5 + height / 2;
+
+                this.pz = this.z;
+
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(x, y);
+                
+                // Color shift based on speed
+                let hue = speed > 10 ? 320 : 180; // Cyan to Pink
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, ${(1 - this.z / width)})`;
+                ctx.lineWidth = r;
+                ctx.stroke();
+            }
+        }
+
+        for(let i=0; i<STAR_COUNT; i++) stars.push(new Star());
+
+        function animateCanvas() {
+            // Motion blur trail
+            ctx.fillStyle = 'rgba(3, 3, 5, 0.4)';
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.update();
+                star.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+
+        // --- COUNTDOWN LOGIC ---
+        // Target: 04.12.2025 12:00
+        const targetDate = new Date('2025-12-04T12:00:00').getTime();
+        // Start date for progress bar calculation (e.g., set to 24 hours before target for visual effect)
+        const startDate = targetDate - (24 * 60 * 60 * 1000); 
+
+        const els = {
+            h: document.getElementById('hours'),
+            m: document.getElementById('minutes'),
+            s: document.getElementById('seconds'),
+            ms: document.getElementById('milliseconds'),
+            grid: document.getElementById('countdown-grid'),
+            progress: document.getElementById('progress'),
+            percent: document.getElementById('percent-display'),
+            scramble: document.getElementById('scramble-text'),
+            title: document.querySelector('.glitch-text')
+        };
+
+        const phrases = [
+            "DECRYPTING PAYLOAD...",
+            "ESTABLISHING SECURE LINK...",
+            "BYPASSING FIREWALLS...",
+            "OPTIMIZING ASSETS...",
+            "FRAU FAO PROTOCOL ACTIVE"
+        ];
+        let phraseIndex = 0;
+
+        // Scramble Text Effect
+        setInterval(() => {
+            const phrase = phrases[phraseIndex];
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+            let iteration = 0;
+            
+            const interval = setInterval(() => {
+                els.scramble.innerText = phrase.split("")
+                    .map((letter, index) => {
+                        if(index < iteration) {
+                            return phrase[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)]
+                    })
+                    .join("");
+                
+                if(iteration >= phrase.length) { 
+                    clearInterval(interval);
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                }
+                
+                iteration += 1/3;
+            }, 30);
+        }, 4000);
+
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            // Progress Bar Logic
+            const totalDuration = targetDate - startDate;
+            const elapsed = now - startDate;
+            let progressPercent = (elapsed / totalDuration) * 100;
+            if(progressPercent > 100) progressPercent = 100;
+            if(progressPercent < 0) progressPercent = 0;
+            
+            els.progress.style.width = `${progressPercent}%`;
+            els.percent.innerText = `${progressPercent.toFixed(2)}%`;
+
+            // Warp Speed control based on urgency
+            if (distance < 60000 && distance > 0) {
+                // Last minute: Warp speed increases
+                speed = 2 + ((60000 - distance) / 1000); // Accelerate from 2 to ~60
+                document.body.classList.add('critical');
+            } else if (distance <= 0) {
+                speed = 80; // Max speed
+                handleFinish();
+                return;
+            } else {
+                speed = 2; // Cruising speed
+                document.body.classList.remove('critical');
+            }
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const milliseconds = Math.floor(distance % 1000);
+
+            els.h.innerText = hours < 10 ? "0" + hours : hours;
+            els.m.innerText = minutes < 10 ? "0" + minutes : minutes;
+            els.s.innerText = seconds < 10 ? "0" + seconds : seconds;
+            els.ms.innerText = milliseconds < 100 ? (milliseconds < 10 ? "00" + milliseconds : "0" + milliseconds) : milliseconds;
+
+            requestAnimationFrame(updateTimer);
+        }
+
+        function handleFinish() {
+            els.h.innerText = "00";
+            els.m.innerText = "00";
+            els.s.innerText = "00";
+            els.ms.innerText = "000";
+            els.title.innerText = "LAUNCHED";
+            els.title.setAttribute("data-text", "LAUNCHED");
+            els.scramble.innerText = "DEPLOYMENT SUCCESSFUL";
+            
+            // Trigger massive visual finish
+            els.grid.style.filter = "blur(0px)";
+            document.body.style.backgroundColor = "white";
+            setTimeout(() => {
+                document.body.style.backgroundColor = "black";
+                document.body.style.transition = "background-color 2s ease";
+            }, 50);
+        }
+
+        updateTimer();
+
+    </script>
+</body>
+</html>
