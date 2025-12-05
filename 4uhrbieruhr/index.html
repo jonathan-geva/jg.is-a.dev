@@ -512,25 +512,23 @@
             }
             
             // Calculate time difference
-            let diff = target - now;
-            
-            if (diff < 0) {
-                diff = 0;
-            }
+            const diff = Math.max(target - now, 0);
             
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            // Check for last 10 seconds
+            // Check for last 10 seconds (only when not in celebration mode)
             const totalSeconds = Math.floor(diff / 1000);
-            if (totalSeconds <= 10 && totalSeconds > 0 && !lastTenSecondsActive) {
+            if (!isFeierabend && totalSeconds <= 10 && totalSeconds > 0 && !lastTenSecondsActive) {
                 lastTenSecondsActive = true;
                 containerEl.classList.add('final-countdown');
-            } else if (totalSeconds > 10 && lastTenSecondsActive) {
-                lastTenSecondsActive = false;
-                containerEl.classList.remove('final-countdown');
+            } else if (totalSeconds > 10 || totalSeconds === 0 || isFeierabend) {
+                if (lastTenSecondsActive) {
+                    lastTenSecondsActive = false;
+                    containerEl.classList.remove('final-countdown');
+                }
             }
             
             // Update display
