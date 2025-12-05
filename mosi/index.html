@@ -803,7 +803,7 @@
             <p class="progress-text" id="progress-text">Loading...</p>
         </div>
         
-        <p class="target-date">12.12.2025 • 00:00</p>
+        <p class="target-date" id="target-date-display">Loading...</p>
     </div>
     
     <!-- Easter Egg -->
@@ -813,9 +813,63 @@
     </div>
     
     <script>
-        // Target date: December 12, 2025 at midnight
-        const targetDate = new Date('2025-12-12T00:00:00').getTime();
-        const startDate = new Date('2025-12-04T00:00:00').getTime(); // Approximate start for progress
+        // Calculate the next Friday at 16:00 Zurich time
+        function getNextFridayZurich() {
+            const now = new Date();
+            
+            // Get current time in Zurich timezone using sv-SE locale for ISO-like format
+            const zurichNow = new Date(now.toLocaleString('sv-SE', { timeZone: 'Europe/Zurich' }));
+            
+            // Get day of week (0 = Sunday, 5 = Friday)
+            const currentDay = zurichNow.getDay();
+            const currentHour = zurichNow.getHours();
+            const currentMinute = zurichNow.getMinutes();
+            
+            // Calculate days until next Friday (Friday = 5)
+            let daysUntilFriday = (5 - currentDay + 7) % 7;
+            
+            // If it's Friday but past or at 16:00, go to next Friday
+            if (daysUntilFriday === 0 && (currentHour > 16 || (currentHour === 16 && currentMinute > 0))) {
+                daysUntilFriday = 7;
+            }
+            
+            // Create target date at 16:00 on the target Friday in Zurich time
+            const targetZurich = new Date(zurichNow);
+            targetZurich.setDate(targetZurich.getDate() + daysUntilFriday);
+            targetZurich.setHours(16, 0, 0, 0);
+            
+            // Calculate the difference between now (local) and zurichNow to get the offset
+            // This tells us how to convert from Zurich time back to UTC
+            const localNow = new Date(now.toLocaleString('sv-SE'));
+            const offsetMs = zurichNow.getTime() - localNow.getTime();
+            
+            // Adjust targetZurich by the inverse offset to get UTC timestamp
+            // targetZurich is in "Zurich time" but stored as if it were local time
+            // We need to find what UTC time corresponds to 16:00 Zurich
+            const targetUTC = targetZurich.getTime() - offsetMs;
+            
+            return targetUTC;
+        }
+        
+        // Format the target date for display
+        function formatTargetDate(timestamp) {
+            const date = new Date(timestamp);
+            const options = { 
+                timeZone: 'Europe/Zurich',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            };
+            const formatted = date.toLocaleString('de-CH', options);
+            return formatted.replace(',', ' •');
+        }
+        
+        const targetDate = getNextFridayZurich();
+        // Start date for progress: 7 days before target (one week countdown)
+        const startDate = targetDate - (7 * 24 * 60 * 60 * 1000);
         
         // DOM elements
         const daysEl = document.getElementById('days');
@@ -824,6 +878,10 @@
         const secondsEl = document.getElementById('seconds');
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
+        const targetDateDisplay = document.getElementById('target-date-display');
+        
+        // Update the target date display
+        targetDateDisplay.textContent = formatTargetDate(targetDate);
         
         // Store previous values for animation
         let prevValues = { days: '', hours: '', minutes: '', seconds: '' };
