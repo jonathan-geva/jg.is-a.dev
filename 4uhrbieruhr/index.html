@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feierabend Countdown</title>
+    <title>4 Uhr Bier Uhr</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=TheSans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,14 +15,16 @@
         }
 
         :root {
-            --navy: #001155;
-            --navy-light: #002277;
+            --swisscom-navy: #001155;
+            --swisscom-blue: #0066FF;
+            --swisscom-red: #E40521;
+            --swisscom-magenta: #E4007A;
+            --swisscom-purple: #6B1F7C;
             --white: #ffffff;
-            --gray-100: #f5f5f5;
-            --gray-200: #e8e8e8;
-            --gray-500: #6b7280;
-            --accent: #0066cc;
-            --success: #00aa55;
+            --white-90: rgba(255, 255, 255, 0.9);
+            --white-70: rgba(255, 255, 255, 0.7);
+            --white-50: rgba(255, 255, 255, 0.5);
+            --white-20: rgba(255, 255, 255, 0.2);
         }
 
         html, body {
@@ -32,33 +34,105 @@
         }
 
         body {
-            background: var(--white);
+            background: linear-gradient(135deg, var(--swisscom-navy) 0%, var(--swisscom-purple) 50%, var(--swisscom-magenta) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            color: var(--navy);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Subtle animated background shapes */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--white-20);
+            filter: blur(80px);
+        }
+
+        .bg-shape:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -100px;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .bg-shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            animation: float2 25s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, 50px); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -30px); }
+        }
+
+        /* Swisscom Logo */
+        .logo {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            z-index: 10;
+        }
+
+        .logo svg {
+            width: 140px;
+            height: auto;
         }
 
         .container {
             text-align: center;
             padding: 2rem;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 300;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 0.5rem;
-            color: var(--navy);
+            color: var(--white);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
         }
 
         .subtitle {
-            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-size: clamp(0.875rem, 2vw, 1.125rem);
             font-weight: 400;
-            color: var(--gray-500);
+            color: var(--white-70);
             margin-bottom: 3rem;
         }
 
@@ -74,14 +148,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: var(--white-20);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: clamp(1rem, 3vw, 2rem);
+            min-width: clamp(80px, 18vw, 140px);
+            border: 1px solid var(--white-20);
         }
 
         .time-value {
-            font-size: clamp(3rem, 12vw, 7rem);
-            font-weight: 600;
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-weight: 700;
             line-height: 1;
             letter-spacing: -0.03em;
-            color: var(--navy);
+            color: var(--white);
             transition: transform 0.15s ease, color 0.3s ease;
             font-variant-numeric: tabular-nums;
         }
@@ -92,38 +173,49 @@
 
         @keyframes subtlePulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
 
         .time-label {
-            font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+            font-size: clamp(0.6rem, 1.2vw, 0.75rem);
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            color: var(--gray-500);
-            margin-top: 0.5rem;
+            color: var(--white-70);
+            margin-top: 0.75rem;
         }
 
         .separator {
-            font-size: clamp(2rem, 8vw, 5rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 300;
-            color: var(--gray-200);
+            color: var(--white-50);
             line-height: 1;
-            align-self: flex-start;
-            margin-top: 0.1em;
+            align-self: center;
+            margin-bottom: 1.5rem;
         }
 
         .status {
-            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-size: clamp(0.875rem, 2vw, 1.125rem);
             font-weight: 400;
-            color: var(--gray-500);
+            color: var(--white-70);
             transition: color 0.3s ease;
         }
 
         /* Last 10 seconds animation */
+        .final-countdown .time-group {
+            animation: urgentPulse 1s ease-in-out infinite;
+            background: rgba(228, 5, 33, 0.3);
+            border-color: rgba(228, 5, 33, 0.5);
+        }
+
         .final-countdown .time-value {
-            color: var(--accent);
+            color: var(--white);
+        }
+
+        @keyframes urgentPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(228, 5, 33, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px 10px rgba(228, 5, 33, 0.2); }
         }
 
         .final-countdown .time-value.pulse {
@@ -131,9 +223,9 @@
         }
 
         @keyframes finalPulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.08); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         /* Celebration state */
@@ -141,17 +233,15 @@
             position: relative;
         }
 
-        .celebration .title {
-            color: var(--success);
-        }
-
-        .celebration .time-value {
-            color: var(--success);
+        .celebration .time-group {
+            background: rgba(0, 170, 85, 0.3);
+            border-color: rgba(0, 170, 85, 0.5);
         }
 
         .celebration .status {
-            color: var(--success);
-            font-weight: 500;
+            color: var(--white);
+            font-weight: 600;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
         }
 
         /* Celebration animation overlay */
@@ -173,8 +263,8 @@
 
         .confetti {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             opacity: 0;
         }
 
@@ -189,8 +279,8 @@
             }
         }
 
-        /* Success checkmark animation */
-        .checkmark-container {
+        /* Beer emoji animation */
+        .beer-container {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -199,44 +289,19 @@
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 200;
             pointer-events: none;
+            font-size: 8rem;
         }
 
-        .checkmark-container.active {
+        .beer-container.active {
             transform: translate(-50%, -50%) scale(1);
             opacity: 1;
+            animation: beerBounce 0.6s ease-in-out;
         }
 
-        .checkmark {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 20px 60px rgba(0, 170, 85, 0.3);
-        }
-
-        .checkmark svg {
-            width: 60px;
-            height: 60px;
-            stroke: white;
-            stroke-width: 3;
-            fill: none;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .checkmark svg path {
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            animation: drawCheck 0.5s ease forwards 0.3s;
-        }
-
-        @keyframes drawCheck {
-            to {
-                stroke-dashoffset: 0;
-            }
+        @keyframes beerBounce {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
 
         /* Ripple effect on celebration */
@@ -249,7 +314,7 @@
             height: 10px;
             border-radius: 50%;
             background: transparent;
-            border: 2px solid var(--success);
+            border: 3px solid var(--white);
             opacity: 0;
             pointer-events: none;
             z-index: 150;
@@ -275,29 +340,56 @@
         /* Progress indicator */
         .progress-bar {
             width: 100%;
-            max-width: 400px;
-            height: 2px;
-            background: var(--gray-200);
-            margin: 2rem auto 0;
-            border-radius: 1px;
+            max-width: 500px;
+            height: 4px;
+            background: var(--white-20);
+            margin: 2rem auto 1.5rem;
+            border-radius: 2px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: var(--navy);
+            background: linear-gradient(90deg, var(--swisscom-magenta), var(--swisscom-red));
             transition: width 1s linear;
-            border-radius: 1px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(228, 0, 122, 0.5);
         }
 
         .celebration .progress-fill {
-            background: var(--success);
+            background: linear-gradient(90deg, #00aa55, #00cc66);
+            box-shadow: 0 0 10px rgba(0, 170, 85, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--white-50);
+            z-index: 1;
         }
 
         /* Responsive */
         @media (max-width: 600px) {
             .separator {
                 margin: 0 -0.25rem;
+            }
+            
+            .logo {
+                top: 1rem;
+                left: 1rem;
+            }
+            
+            .logo svg {
+                width: 100px;
+            }
+            
+            .time-group {
+                padding: clamp(0.75rem, 2vw, 1.5rem);
+                border-radius: 12px;
             }
         }
 
@@ -308,23 +400,36 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+            
+            body {
+                animation: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="celebration-overlay" id="celebration-overlay"></div>
-    <div class="checkmark-container" id="checkmark">
-        <div class="checkmark">
-            <svg viewBox="0 0 24 24">
-                <path d="M5 12l5 5L20 7"/>
-            </svg>
-        </div>
+    <!-- Background shapes -->
+    <div class="bg-shapes">
+        <div class="bg-shape"></div>
+        <div class="bg-shape"></div>
     </div>
+
+    <!-- Swisscom Logo -->
+    <div class="logo">
+        <svg viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 0C8.954 0 0 8.954 0 20s8.954 20 20 20 20-8.954 20-20S31.046 0 20 0zm0 36c-8.837 0-16-7.163-16-16S11.163 4 20 4s16 7.163 16 16-7.163 16-16 16z" fill="white"/>
+            <path d="M20 8c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12S26.627 8 20 8zm0 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+            <text x="50" y="28" fill="white" font-family="Inter, sans-serif" font-weight="700" font-size="22">swisscom</text>
+        </svg>
+    </div>
+
+    <div class="celebration-overlay" id="celebration-overlay"></div>
+    <div class="beer-container" id="beer-emoji">🍺</div>
     <div class="ripple" id="ripple"></div>
 
     <div class="container" id="container">
-        <h1 class="title">Feierabend Countdown</h1>
-        <p class="subtitle">Jeden Freitag um 16:00 Uhr</p>
+        <h1 class="title">4 Uhr Bier Uhr 🍺</h1>
+        <p class="subtitle">Countdown bis 4 Uhr Bier Uhr • Jeden Freitag um 16:00 Uhr</p>
 
         <div class="countdown">
             <div class="time-group">
@@ -352,8 +457,10 @@
             <div class="progress-fill" id="progress"></div>
         </div>
 
-        <p class="status" id="status">Bis zum nächsten Feierabend</p>
+        <p class="status" id="status">Bis zur 4 Uhr Bier Uhr</p>
     </div>
+
+    <div class="footer">Zürich Time (Europe/Zurich)</div>
 
     <script>
         // Zürich timezone
@@ -371,7 +478,7 @@
         const progressEl = document.getElementById('progress');
         const containerEl = document.getElementById('container');
         const celebrationOverlay = document.getElementById('celebration-overlay');
-        const checkmark = document.getElementById('checkmark');
+        const beerEmoji = document.getElementById('beer-emoji');
         const ripple = document.getElementById('ripple');
 
         let prevValues = { days: '', hours: '', minutes: '', seconds: '' };
@@ -442,7 +549,7 @@
 
         // Create confetti
         function createConfetti() {
-            const colors = ['#001155', '#0066cc', '#00aa55', '#002277'];
+            const colors = ['#E40521', '#E4007A', '#6B1F7C', '#001155', '#ffffff'];
             
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
@@ -472,21 +579,21 @@
             ripple.classList.add('active');
             setTimeout(() => ripple.classList.remove('active'), 1000);
             
-            // Show checkmark
+            // Show beer emoji
             setTimeout(() => {
-                checkmark.classList.add('active');
+                beerEmoji.classList.add('active');
             }, 200);
             
-            // Hide checkmark after a while
+            // Hide beer emoji after a while
             setTimeout(() => {
-                checkmark.classList.remove('active');
+                beerEmoji.classList.remove('active');
             }, 3000);
             
             // Create confetti
             createConfetti();
             
             // Update status
-            statusEl.textContent = '🍺 Prost! Feierabend!';
+            statusEl.textContent = '🍺🎉 PROST! 4 Uhr Bier Uhr! 🎉🍺';
         }
 
         // End celebration
@@ -494,7 +601,7 @@
             celebrationActive = false;
             containerEl.classList.remove('celebration');
             celebrationOverlay.classList.remove('active');
-            statusEl.textContent = 'Bis zum nächsten Feierabend';
+            statusEl.textContent = 'Bis zur 4 Uhr Bier Uhr';
         }
 
         // Main update function
