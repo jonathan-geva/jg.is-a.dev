@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍺 4 UHR BIER UHR 🍺</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <title>Feierabend Countdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,402 +15,172 @@
         }
 
         :root {
-            --beer-gold: #f5a623;
-            --beer-amber: #e67e22;
-            --foam-white: #fff8e7;
-            --dark-beer: #8b4513;
-            --neon-blue: #00d4ff;
-            --neon-pink: #ff0080;
-            --neon-green: #00ff88;
+            --navy: #001155;
+            --navy-light: #002277;
+            --white: #ffffff;
+            --gray-100: #f5f5f5;
+            --gray-200: #e8e8e8;
+            --gray-500: #6b7280;
+            --accent: #0066cc;
+            --success: #00aa55;
         }
 
         html, body {
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 25%, #0f3460 50%, #1a0a2e 75%, #16213e 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: var(--white);
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            position: relative;
+            color: var(--navy);
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Particle effect container */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            animation: bubbleRise linear infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes bubbleRise {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100px) scale(1);
-                opacity: 0;
-            }
-        }
-
-        /* Beer mug floating around */
-        .floating-beer {
-            position: fixed;
-            font-size: 4rem;
-            animation: floatBeer 20s infinite linear;
-            opacity: 0.3;
-            z-index: 1;
-        }
-
-        @keyframes floatBeer {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-150vh) rotate(720deg); }
-        }
-
-        /* Scanlines overlay */
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.1) 2px,
-                rgba(0, 0, 0, 0.1) 4px
-            );
-            pointer-events: none;
-            z-index: 100;
-            animation: scanlineScroll 8s linear infinite;
-        }
-
-        @keyframes scanlineScroll {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); }
-        }
-
-        /* Main container */
-        .main-container {
-            position: relative;
-            z-index: 10;
+        .container {
             text-align: center;
             padding: 2rem;
-            max-width: 100vw;
+            max-width: 800px;
+            width: 100%;
         }
 
-        /* Title styles */
-        .title-container {
-            margin-bottom: 2rem;
-        }
-
-        .main-title {
-            font-family: 'Bangers', cursive;
-            font-size: clamp(3rem, 15vw, 12rem);
-            color: var(--beer-gold);
-            text-shadow: 
-                0 0 10px var(--beer-gold),
-                0 0 20px var(--beer-gold),
-                0 0 40px var(--beer-amber),
-                0 0 80px var(--beer-amber),
-                4px 4px 0 var(--dark-beer),
-                8px 8px 0 rgba(0,0,0,0.3);
-            letter-spacing: 0.1em;
-            animation: titlePulse 2s ease-in-out infinite, titleGlow 3s ease-in-out infinite alternate;
-            line-height: 1;
-            position: relative;
-        }
-
-        .main-title::before {
-            content: '🍺';
-            position: absolute;
-            left: -1em;
-            animation: beerShake 0.5s ease-in-out infinite;
-        }
-
-        .main-title::after {
-            content: '🍺';
-            position: absolute;
-            right: -1em;
-            animation: beerShake 0.5s ease-in-out infinite reverse;
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        @keyframes titleGlow {
-            0% { 
-                text-shadow: 
-                    0 0 10px var(--beer-gold),
-                    0 0 20px var(--beer-gold),
-                    0 0 40px var(--beer-amber),
-                    0 0 80px var(--beer-amber),
-                    4px 4px 0 var(--dark-beer);
-            }
-            100% { 
-                text-shadow: 
-                    0 0 20px var(--beer-gold),
-                    0 0 40px var(--beer-gold),
-                    0 0 80px var(--beer-amber),
-                    0 0 120px var(--neon-pink),
-                    4px 4px 0 var(--dark-beer);
-            }
-        }
-
-        @keyframes beerShake {
-            0%, 100% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
+        .title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
         }
 
         .subtitle {
-            font-family: 'Permanent Marker', cursive;
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            color: var(--foam-white);
-            text-shadow: 0 0 20px var(--neon-blue);
-            margin-top: 1rem;
-            animation: subtitleFloat 3s ease-in-out infinite;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-weight: 400;
+            color: var(--gray-500);
+            margin-bottom: 3rem;
         }
 
-        @keyframes subtitleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Countdown container */
-        .countdown-container {
+        .countdown {
             display: flex;
             justify-content: center;
+            align-items: baseline;
+            gap: clamp(0.5rem, 2vw, 1.5rem);
+            margin-bottom: 3rem;
+        }
+
+        .time-group {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: clamp(0.5rem, 3vw, 2rem);
-            flex-wrap: wrap;
-            margin: 3rem 0;
-        }
-
-        .time-unit {
-            position: relative;
-            perspective: 1000px;
-        }
-
-        .time-card {
-            background: linear-gradient(145deg, rgba(245, 166, 35, 0.2), rgba(139, 69, 19, 0.3));
-            border: 3px solid var(--beer-gold);
-            border-radius: 20px;
-            padding: clamp(1rem, 4vw, 3rem);
-            min-width: clamp(100px, 25vw, 220px);
-            backdrop-filter: blur(10px);
-            box-shadow: 
-                0 0 30px rgba(245, 166, 35, 0.5),
-                0 0 60px rgba(245, 166, 35, 0.3),
-                inset 0 0 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            animation: cardFloat 4s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .time-unit:nth-child(1) .time-card { animation-delay: 0s; }
-        .time-unit:nth-child(2) .time-card { animation-delay: 0.5s; }
-        .time-unit:nth-child(3) .time-card { animation-delay: 1s; }
-
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0) rotateX(0deg); }
-            50% { transform: translateY(-15px) rotateX(5deg); }
-        }
-
-        .time-card:hover {
-            transform: scale(1.1) rotateY(10deg);
-            box-shadow: 
-                0 0 50px rgba(245, 166, 35, 0.8),
-                0 0 100px rgba(245, 166, 35, 0.5),
-                0 0 150px rgba(255, 0, 128, 0.3);
-            border-color: var(--neon-pink);
-        }
-
-        .time-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                transparent
-            );
-            animation: cardShine 3s infinite;
-        }
-
-        @keyframes cardShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .time-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 12vw, 8rem);
-            font-weight: 900;
-            background: linear-gradient(180deg, #fff 0%, var(--beer-gold) 50%, var(--beer-amber) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 0 20px var(--beer-gold));
-            display: block;
+            font-size: clamp(3rem, 12vw, 7rem);
+            font-weight: 600;
             line-height: 1;
+            letter-spacing: -0.03em;
+            color: var(--navy);
+            transition: transform 0.15s ease, color 0.3s ease;
+            font-variant-numeric: tabular-nums;
         }
 
         .time-value.pulse {
-            animation: valuePulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: subtlePulse 0.3s ease;
         }
 
-        @keyframes valuePulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 20px var(--beer-gold)); }
-            50% { transform: scale(1.3); filter: drop-shadow(0 0 60px var(--neon-pink)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--beer-gold)); }
+        @keyframes subtlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
         .time-label {
-            font-size: clamp(0.8rem, 2vw, 1.5rem);
-            color: var(--foam-white);
+            font-size: clamp(0.625rem, 1.5vw, 0.75rem);
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.15em;
+            color: var(--gray-500);
             margin-top: 0.5rem;
-            opacity: 0.8;
         }
 
-        /* Separator */
         .separator {
-            font-size: clamp(3rem, 10vw, 6rem);
-            color: var(--beer-gold);
-            animation: separatorBlink 1s ease-in-out infinite;
-            text-shadow: 0 0 20px var(--beer-gold);
+            font-size: clamp(2rem, 8vw, 5rem);
+            font-weight: 300;
+            color: var(--gray-200);
+            line-height: 1;
+            align-self: flex-start;
+            margin-top: 0.1em;
         }
 
-        @keyframes separatorBlink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.2); }
+        .status {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-weight: 400;
+            color: var(--gray-500);
+            transition: color 0.3s ease;
         }
 
-        /* Status message */
-        .status-container {
-            margin-top: 2rem;
+        /* Last 10 seconds animation */
+        .final-countdown .time-value {
+            color: var(--accent);
         }
 
-        .status-message {
-            font-family: 'Permanent Marker', cursive;
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            display: inline-block;
-            animation: statusPulse 2s ease-in-out infinite;
+        .final-countdown .time-value.pulse {
+            animation: finalPulse 0.5s ease;
         }
 
-        .status-waiting {
-            background: linear-gradient(90deg, rgba(0, 212, 255, 0.3), rgba(138, 43, 226, 0.3));
-            color: var(--neon-blue);
-            border: 2px solid var(--neon-blue);
-            text-shadow: 0 0 20px var(--neon-blue);
+        @keyframes finalPulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .status-beertime {
-            background: linear-gradient(90deg, rgba(245, 166, 35, 0.5), rgba(255, 0, 128, 0.5));
-            color: var(--beer-gold);
-            border: 2px solid var(--beer-gold);
-            text-shadow: 0 0 30px var(--beer-gold);
-            animation: beerTimeGlow 0.3s ease-in-out infinite alternate, statusPulse 2s ease-in-out infinite !important;
+        /* Celebration state */
+        .celebration {
+            position: relative;
         }
 
-        @keyframes statusPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .celebration .title {
+            color: var(--success);
         }
 
-        @keyframes beerTimeGlow {
-            0% { 
-                box-shadow: 0 0 20px var(--beer-gold), 0 0 40px var(--neon-pink);
-            }
-            100% { 
-                box-shadow: 0 0 40px var(--beer-gold), 0 0 80px var(--neon-pink), 0 0 120px var(--neon-green);
-            }
+        .celebration .time-value {
+            color: var(--success);
         }
 
-        /* Giant beer celebration */
-        .giant-beer {
-            position: fixed;
-            font-size: 30vw;
-            z-index: 1000;
-            animation: giantBeerBounce 0.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 50px var(--beer-gold));
-            pointer-events: none;
-            display: none;
+        .celebration .status {
+            color: var(--success);
+            font-weight: 500;
         }
 
-        .giant-beer.active {
-            display: block;
-        }
-
-        @keyframes giantBeerBounce {
-            0%, 100% { transform: scale(1) rotate(-5deg); }
-            50% { transform: scale(1.1) rotate(5deg); }
-        }
-
-        /* Confetti container */
-        .confetti-container {
+        /* Celebration animation overlay */
+        .celebration-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 500;
-            overflow: hidden;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .celebration-overlay.active {
+            opacity: 1;
         }
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 30px;
-            animation: confettiFall linear forwards;
+            width: 8px;
+            height: 8px;
+            opacity: 0;
         }
 
         @keyframes confettiFall {
             0% {
-                transform: translateY(-100px) rotate(0deg);
+                transform: translateY(-20px) rotate(0deg);
                 opacity: 1;
             }
             100% {
@@ -417,633 +189,368 @@
             }
         }
 
-        /* Progress bar */
-        .progress-container {
-            width: 80%;
-            max-width: 800px;
-            margin: 2rem auto;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 50px;
-            padding: 5px;
-            border: 2px solid var(--beer-gold);
-            box-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
-        }
-
-        .progress-bar {
-            height: 30px;
-            border-radius: 50px;
-            background: linear-gradient(90deg, var(--beer-gold), var(--beer-amber), var(--neon-pink), var(--beer-gold));
-            background-size: 300% 100%;
-            animation: progressShine 2s linear infinite;
-            transition: width 1s ease;
-            box-shadow: 0 0 20px var(--beer-gold);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: progressGlare 1.5s ease-in-out infinite;
-        }
-
-        @keyframes progressShine {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 300% 50%; }
-        }
-
-        @keyframes progressGlare {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(200%); }
-        }
-
-        .progress-text {
-            color: var(--foam-white);
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            text-shadow: 0 0 10px var(--beer-gold);
-        }
-
-        /* Beer glass filling animation at the bottom */
-        .beer-glass-container {
+        /* Success checkmark animation */
+        .checkmark-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 5rem;
-            z-index: 50;
-            animation: glassWobble 2s ease-in-out infinite;
-        }
-
-        @keyframes glassWobble {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-        }
-
-        /* Click effects */
-        .click-ripple {
-            position: fixed;
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
             pointer-events: none;
-            z-index: 9998;
-            animation: rippleExpand 0.8s ease-out forwards;
+        }
+
+        .checkmark-container.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .checkmark {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0, 170, 85, 0.3);
+        }
+
+        .checkmark svg {
+            width: 60px;
+            height: 60px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .checkmark svg path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawCheck 0.5s ease forwards 0.3s;
+        }
+
+        @keyframes drawCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Ripple effect on celebration */
+        .ripple {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid var(--success);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 150;
+        }
+
+        .ripple.active {
+            animation: rippleExpand 1s ease-out forwards;
         }
 
         @keyframes rippleExpand {
-            0% { width: 0; height: 0; opacity: 1; border: 4px solid var(--beer-gold); }
-            100% { width: 300px; height: 300px; opacity: 0; border: 4px solid var(--neon-pink); }
+            0% {
+                width: 10px;
+                height: 10px;
+                opacity: 1;
+            }
+            100% {
+                width: 200vmax;
+                height: 200vmax;
+                opacity: 0;
+            }
         }
 
-        /* Floating emoji on click */
-        .floating-emoji {
-            position: fixed;
-            font-size: 3rem;
-            pointer-events: none;
-            z-index: 9999;
-            animation: emojiFloat 3s ease-out forwards;
-        }
-
-        @keyframes emojiFloat {
-            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translateY(-400px) rotate(360deg) scale(0); opacity: 0; }
-        }
-
-        /* Lightning flash */
-        .flash-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Progress indicator */
+        .progress-bar {
             width: 100%;
-            height: 100%;
-            background: white;
-            pointer-events: none;
-            z-index: 200;
-            opacity: 0;
-            transition: opacity 0.1s;
-        }
-
-        .flash-overlay.active {
-            animation: flashBang 0.3s ease-out;
-        }
-
-        @keyframes flashBang {
-            0% { opacity: 0.8; }
-            100% { opacity: 0; }
-        }
-
-        /* Neon border glow on cards */
-        .time-card::after {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(45deg, var(--beer-gold), var(--neon-pink), var(--neon-blue), var(--beer-gold));
-            background-size: 400% 400%;
-            border-radius: 22px;
-            z-index: -1;
-            animation: borderGlow 3s ease infinite;
-            filter: blur(10px);
-            opacity: 0.7;
-        }
-
-        @keyframes borderGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Cursor trail */
-        .cursor-trail {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: screen;
-        }
-
-        /* Fun facts ticker */
-        .ticker-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            border-top: 2px solid var(--beer-gold);
-            padding: 10px 0;
+            max-width: 400px;
+            height: 2px;
+            background: var(--gray-200);
+            margin: 2rem auto 0;
+            border-radius: 1px;
             overflow: hidden;
-            z-index: 50;
         }
 
-        .ticker-content {
-            display: inline-block;
-            white-space: nowrap;
-            animation: tickerScroll 30s linear infinite;
-            color: var(--beer-gold);
-            font-size: 1rem;
+        .progress-fill {
+            height: 100%;
+            background: var(--navy);
+            transition: width 1s linear;
+            border-radius: 1px;
         }
 
-        @keyframes tickerScroll {
-            0% { transform: translateX(100vw); }
-            100% { transform: translateX(-100%); }
+        .celebration .progress-fill {
+            background: var(--success);
         }
 
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            .main-title::before,
-            .main-title::after {
-                display: none;
-            }
-            
-            .beer-glass-container {
-                font-size: 3rem;
-                bottom: 60px;
-            }
-
+        /* Responsive */
+        @media (max-width: 600px) {
             .separator {
-                display: none;
+                margin: 0 -0.25rem;
             }
         }
 
-        /* Keyboard activated disco mode */
-        body.disco-mode {
-            animation: discoBackground 0.5s ease infinite !important;
-        }
-
-        @keyframes discoBackground {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-
-        body.disco-mode .time-card {
-            animation: discoCard 0.3s ease infinite !important;
-        }
-
-        @keyframes discoCard {
-            0%, 100% { transform: scale(1) rotate(-2deg); }
-            50% { transform: scale(1.05) rotate(2deg); }
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Overlays -->
-    <div class="scanlines"></div>
-    <div class="flash-overlay" id="flash-overlay"></div>
-    <div class="particles" id="particles"></div>
-    <div class="confetti-container" id="confetti-container"></div>
-
-    <!-- Giant beer for celebration -->
-    <div class="giant-beer" id="giant-beer">🍺</div>
-
-    <!-- Main content -->
-    <div class="main-container">
-        <div class="title-container">
-            <h1 class="main-title">4 UHR</h1>
-            <p class="subtitle">BIER UHR! 🍻</p>
-        </div>
-
-        <div class="countdown-container">
-            <div class="time-unit">
-                <div class="time-card">
-                    <span class="time-value" id="hours">00</span>
-                    <span class="time-label">Stunden</span>
-                </div>
-            </div>
-            
-            <span class="separator">:</span>
-            
-            <div class="time-unit">
-                <div class="time-card">
-                    <span class="time-value" id="minutes">00</span>
-                    <span class="time-label">Minuten</span>
-                </div>
-            </div>
-            
-            <span class="separator">:</span>
-            
-            <div class="time-unit">
-                <div class="time-card">
-                    <span class="time-value" id="seconds">00</span>
-                    <span class="time-label">Sekunden</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        <p class="progress-text" id="progress-text">Laden...</p>
-
-        <div class="status-container">
-            <div class="status-message status-waiting" id="status-message">
-                ⏰ Warten auf Bierzeit...
-            </div>
+    <div class="celebration-overlay" id="celebration-overlay"></div>
+    <div class="checkmark-container" id="checkmark">
+        <div class="checkmark">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 12l5 5L20 7"/>
+            </svg>
         </div>
     </div>
+    <div class="ripple" id="ripple"></div>
 
-    <!-- Beer glass -->
-    <div class="beer-glass-container">🍺</div>
+    <div class="container" id="container">
+        <h1 class="title">Feierabend Countdown</h1>
+        <p class="subtitle">Jeden Freitag um 16:00 Uhr</p>
 
-    <!-- Fun facts ticker -->
-    <div class="ticker-container">
-        <div class="ticker-content">
-            🍺 Wusstest du? Das Reinheitsgebot von 1516 ist das älteste Lebensmittelgesetz der Welt! 🍺 
-            In Deutschland werden jährlich über 8 Milliarden Liter Bier getrunken! 🍺 
-            Es gibt über 1.500 Brauereien in Deutschland! 🍺 
-            "Prost" kommt vom lateinischen "prosit" und bedeutet "es möge nützen"! 🍺 
-            Das Oktoberfest verbraucht etwa 7 Millionen Liter Bier! 🍺 
-            Bier enthält mehr als 1.000 verschiedene Substanzen! 🍺 
-            Die Deutschen trinken im Schnitt 100 Liter Bier pro Jahr! 🍺
+        <div class="countdown">
+            <div class="time-group">
+                <span class="time-value" id="days">0</span>
+                <span class="time-label">Tage</span>
+            </div>
+            <span class="separator">:</span>
+            <div class="time-group">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Stunden</span>
+            </div>
+            <span class="separator">:</span>
+            <div class="time-group">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Minuten</span>
+            </div>
+            <span class="separator">:</span>
+            <div class="time-group">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Sekunden</span>
+            </div>
         </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <p class="status" id="status">Bis zum nächsten Feierabend</p>
     </div>
 
     <script>
-        // Target: 4 PM (16:00) every day
+        // Zürich timezone
+        const TIMEZONE = 'Europe/Zurich';
+        const TARGET_DAY = 5; // Friday (0 = Sunday, 5 = Friday)
         const TARGET_HOUR = 16;
         const TARGET_MINUTE = 0;
-        const TARGET_SECOND = 0;
 
         // DOM Elements
+        const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const statusMessage = document.getElementById('status-message');
-        const flashOverlay = document.getElementById('flash-overlay');
-        const giantBeer = document.getElementById('giant-beer');
-        const confettiContainer = document.getElementById('confetti-container');
+        const statusEl = document.getElementById('status');
+        const progressEl = document.getElementById('progress');
+        const containerEl = document.getElementById('container');
+        const celebrationOverlay = document.getElementById('celebration-overlay');
+        const checkmark = document.getElementById('checkmark');
+        const ripple = document.getElementById('ripple');
 
-        // Previous values for animation
-        let prevValues = { hours: '', minutes: '', seconds: '' };
-        let isBeerTime = false;
-        let celebrationStarted = false;
+        let prevValues = { days: '', hours: '', minutes: '', seconds: '' };
+        let celebrationActive = false;
+        let lastTenSecondsActive = false;
 
-        // Create bubbles
-        function createBubbles() {
-            const particles = document.getElementById('particles');
-            const colors = ['rgba(245, 166, 35, 0.6)', 'rgba(255, 248, 231, 0.4)', 'rgba(0, 212, 255, 0.3)', 'rgba(255, 0, 128, 0.3)'];
-            
-            for (let i = 0; i < 50; i++) {
-                const bubble = document.createElement('div');
-                bubble.className = 'bubble';
-                bubble.style.left = Math.random() * 100 + '%';
-                bubble.style.width = (5 + Math.random() * 20) + 'px';
-                bubble.style.height = bubble.style.width;
-                bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
-                bubble.style.animationDuration = (8 + Math.random() * 12) + 's';
-                bubble.style.animationDelay = Math.random() * 10 + 's';
-                bubble.style.boxShadow = `0 0 ${10 + Math.random() * 20}px ${bubble.style.background}`;
-                particles.appendChild(bubble);
-            }
+        // Get current time in Zürich
+        function getZurichTime() {
+            return new Date(new Date().toLocaleString('en-US', { timeZone: TIMEZONE }));
         }
 
-        // Create floating beers
-        function createFloatingBeers() {
-            const body = document.body;
-            const emojis = ['🍺', '🍻', '🥨', '🌭'];
-            
-            for (let i = 0; i < 10; i++) {
-                const beer = document.createElement('div');
-                beer.className = 'floating-beer';
-                beer.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                beer.style.left = Math.random() * 100 + '%';
-                beer.style.animationDuration = (15 + Math.random() * 20) + 's';
-                beer.style.animationDelay = Math.random() * 20 + 's';
-                beer.style.fontSize = (2 + Math.random() * 4) + 'rem';
-                body.appendChild(beer);
-            }
-        }
-
-        // Get next 4 PM target
-        function getNextTarget() {
-            const now = new Date();
+        // Get next Friday 16:00 in Zürich time
+        function getNextFriday16() {
+            const now = getZurichTime();
             const target = new Date(now);
-            target.setHours(TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND, 0);
             
-            // If it's past 4 PM, target tomorrow's 4 PM
-            if (now >= target) {
-                target.setDate(target.getDate() + 1);
+            // Set to 16:00
+            target.setHours(TARGET_HOUR, TARGET_MINUTE, 0, 0);
+            
+            // Calculate days until Friday
+            const currentDay = now.getDay();
+            let daysUntilFriday = TARGET_DAY - currentDay;
+            
+            // If it's Friday but past 16:00, or if it's after Friday, go to next week
+            if (daysUntilFriday < 0 || (daysUntilFriday === 0 && now >= target)) {
+                daysUntilFriday += 7;
             }
+            
+            target.setDate(target.getDate() + daysUntilFriday);
             
             return target;
         }
 
-        // Calculate time since midnight for progress
-        function getProgressSinceMidnight(now) {
-            const midnight = new Date(now);
-            midnight.setHours(0, 0, 0, 0);
-            
-            const fourPM = new Date(now);
-            fourPM.setHours(TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND, 0);
-            
-            // If past 4 PM, show 100%
-            if (now >= fourPM) {
-                return 100;
-            }
-            
-            const totalMs = fourPM - midnight;
-            const elapsedMs = now - midnight;
-            
-            return (elapsedMs / totalMs) * 100;
+        // Check if it's currently "Feierabend" time (Friday 16:00-17:00)
+        function isFeierabendTime() {
+            const now = getZurichTime();
+            return now.getDay() === TARGET_DAY && 
+                   now.getHours() >= TARGET_HOUR && 
+                   now.getHours() < TARGET_HOUR + 1;
         }
 
-        // Update with animation
-        function updateWithAnimation(element, newValue, key) {
+        // Calculate progress through the week
+        function getWeekProgress() {
+            const now = getZurichTime();
+            const target = getNextFriday16();
+            
+            // Total time in a week (7 days in ms)
+            const weekMs = 7 * 24 * 60 * 60 * 1000;
+            
+            // Time until target
+            const timeUntil = target - now;
+            
+            // Progress is inverse of time remaining
+            const progress = ((weekMs - timeUntil) / weekMs) * 100;
+            
+            return Math.min(Math.max(progress, 0), 100);
+        }
+
+        // Update display with subtle animation
+        function updateValue(element, newValue, key) {
             if (prevValues[key] !== newValue) {
                 element.textContent = newValue;
                 element.classList.add('pulse');
-                setTimeout(() => element.classList.remove('pulse'), 500);
+                setTimeout(() => element.classList.remove('pulse'), 300);
                 prevValues[key] = newValue;
             }
         }
 
         // Create confetti
         function createConfetti() {
-            const colors = ['#f5a623', '#e67e22', '#00d4ff', '#ff0080', '#00ff88', '#fff'];
+            const colors = ['#001155', '#0066cc', '#00aa55', '#002277'];
             
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-20px';
                     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
-                    confetti.style.width = (5 + Math.random() * 10) + 'px';
-                    confetti.style.height = (10 + Math.random() * 20) + 'px';
-                    confettiContainer.appendChild(confetti);
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
+                    celebrationOverlay.appendChild(confetti);
                     
-                    setTimeout(() => confetti.remove(), 5000);
-                }, i * 50);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 60);
             }
         }
 
         // Start celebration
         function startCelebration() {
-            if (celebrationStarted) return;
-            celebrationStarted = true;
+            if (celebrationActive) return;
+            celebrationActive = true;
             
-            // Flash effect
-            flashOverlay.classList.add('active');
-            setTimeout(() => flashOverlay.classList.remove('active'), 300);
+            containerEl.classList.add('celebration');
+            celebrationOverlay.classList.add('active');
             
-            // Show giant beer
-            giantBeer.classList.add('active');
+            // Show ripple
+            ripple.classList.add('active');
+            setTimeout(() => ripple.classList.remove('active'), 1000);
+            
+            // Show checkmark
+            setTimeout(() => {
+                checkmark.classList.add('active');
+            }, 200);
+            
+            // Hide checkmark after a while
+            setTimeout(() => {
+                checkmark.classList.remove('active');
+            }, 3000);
             
             // Create confetti
             createConfetti();
             
             // Update status
-            statusMessage.className = 'status-message status-beertime';
-            statusMessage.innerHTML = '🍺🎉 BIERZEIT! PROST! 🎉🍺';
-            
-            // Continuous confetti during beer time
-            const confettiInterval = setInterval(() => {
-                if (!isBeerTime) {
-                    clearInterval(confettiInterval);
-                    return;
-                }
-                createConfetti();
-            }, 3000);
+            statusEl.textContent = '🍺 Prost! Feierabend!';
         }
 
         // End celebration
         function endCelebration() {
-            celebrationStarted = false;
-            giantBeer.classList.remove('active');
-            statusMessage.className = 'status-message status-waiting';
-            statusMessage.innerHTML = '⏰ Warten auf Bierzeit...';
+            celebrationActive = false;
+            containerEl.classList.remove('celebration');
+            celebrationOverlay.classList.remove('active');
+            statusEl.textContent = 'Bis zum nächsten Feierabend';
         }
 
-        // Main countdown function
+        // Main update function
         function updateCountdown() {
-            const now = new Date();
-            const target = getNextTarget();
-            const distance = target - now;
+            const now = getZurichTime();
+            const target = getNextFriday16();
             
-            // Check if it's beer time (within 1 hour after 4 PM)
-            const fourPM = new Date(now);
-            fourPM.setHours(TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND, 0);
-            const fivePM = new Date(now);
-            fivePM.setHours(TARGET_HOUR + 1, TARGET_MINUTE, TARGET_SECOND, 0);
+            // Check for Feierabend time
+            const isFeierabend = isFeierabendTime();
             
-            const wasBeerTime = isBeerTime;
-            isBeerTime = now >= fourPM && now < fivePM;
-            
-            if (isBeerTime && !wasBeerTime) {
+            if (isFeierabend && !celebrationActive) {
                 startCelebration();
-            } else if (!isBeerTime && wasBeerTime) {
+            } else if (!isFeierabend && celebrationActive) {
                 endCelebration();
             }
             
-            // Calculate time remaining
-            const hours = Math.floor(distance / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Calculate time difference
+            let diff = target - now;
             
-            // Format values
-            const hoursStr = String(hours).padStart(2, '0');
-            const minutesStr = String(minutes).padStart(2, '0');
-            const secondsStr = String(seconds).padStart(2, '0');
+            if (diff < 0) {
+                diff = 0;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Check for last 10 seconds
+            const totalSeconds = Math.floor(diff / 1000);
+            if (totalSeconds <= 10 && totalSeconds > 0 && !lastTenSecondsActive) {
+                lastTenSecondsActive = true;
+                containerEl.classList.add('final-countdown');
+            } else if (totalSeconds > 10 && lastTenSecondsActive) {
+                lastTenSecondsActive = false;
+                containerEl.classList.remove('final-countdown');
+            }
             
             // Update display
-            updateWithAnimation(hoursEl, hoursStr, 'hours');
-            updateWithAnimation(minutesEl, minutesStr, 'minutes');
-            updateWithAnimation(secondsEl, secondsStr, 'seconds');
+            updateValue(daysEl, String(days), 'days');
+            updateValue(hoursEl, String(hours).padStart(2, '0'), 'hours');
+            updateValue(minutesEl, String(minutes).padStart(2, '0'), 'minutes');
+            updateValue(secondsEl, String(seconds).padStart(2, '0'), 'seconds');
             
             // Update progress bar
-            const progress = getProgressSinceMidnight(now);
-            progressBar.style.width = progress.toFixed(2) + '%';
-            
-            if (isBeerTime) {
-                progressText.textContent = '🍺 ES IST BIERZEIT! 🍺';
+            if (isFeierabend) {
+                progressEl.style.width = '100%';
             } else {
-                progressText.textContent = `${progress.toFixed(2)}% des Weges zu 16:00 Uhr geschafft!`;
+                const progress = getWeekProgress();
+                progressEl.style.width = progress.toFixed(2) + '%';
             }
         }
 
-        // Click effects
-        document.addEventListener('click', (e) => {
-            // Ripple effect
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.left = (e.clientX - 150) + 'px';
-            ripple.style.top = (e.clientY - 150) + 'px';
-            document.body.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 800);
-            
-            // Floating emojis
-            const emojis = ['🍺', '🍻', '🥨', '🌭', '✨', '🎉', '⭐'];
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const emoji = document.createElement('div');
-                    emoji.className = 'floating-emoji';
-                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                    emoji.style.left = (e.clientX + (Math.random() - 0.5) * 100) + 'px';
-                    emoji.style.top = e.clientY + 'px';
-                    document.body.appendChild(emoji);
-                    setTimeout(() => emoji.remove(), 3000);
-                }, i * 100);
-            }
-        });
-
-        // Cursor trail
-        const trailColors = ['#f5a623', '#e67e22', '#00d4ff', '#ff0080'];
-        let trailIndex = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = (e.clientX - 10) + 'px';
-            trail.style.top = (e.clientY - 10) + 'px';
-            trail.style.background = `radial-gradient(circle, ${trailColors[trailIndex % trailColors.length]}, transparent)`;
-            document.body.appendChild(trail);
-            trailIndex++;
-            
-            setTimeout(() => {
-                trail.style.transition = 'all 0.5s ease-out';
-                trail.style.transform = 'scale(0)';
-                trail.style.opacity = '0';
-            }, 10);
-            
-            setTimeout(() => trail.remove(), 500);
-        });
-
-        // Keyboard effects
-        document.addEventListener('keydown', (e) => {
-            // Space bar for flash
-            if (e.code === 'Space') {
-                e.preventDefault();
-                flashOverlay.classList.add('active');
-                setTimeout(() => flashOverlay.classList.remove('active'), 100);
-                createConfetti();
-            }
-            
-            // 'D' for disco mode
-            if (e.key.toLowerCase() === 'd') {
-                document.body.classList.toggle('disco-mode');
-            }
-            
-            // 'B' for beer explosion
-            if (e.key.toLowerCase() === 'b') {
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(() => {
-                        const emoji = document.createElement('div');
-                        emoji.className = 'floating-emoji';
-                        emoji.textContent = '🍺';
-                        emoji.style.left = Math.random() * window.innerWidth + 'px';
-                        emoji.style.top = window.innerHeight + 'px';
-                        emoji.style.fontSize = (2 + Math.random() * 4) + 'rem';
-                        document.body.appendChild(emoji);
-                        setTimeout(() => emoji.remove(), 3000);
-                    }, i * 50);
-                }
-            }
-        });
-
-        // Card 3D tilt effect
-        document.querySelectorAll('.time-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
-        });
-
-        // Double click for mega celebration
-        document.addEventListener('dblclick', (e) => {
-            flashOverlay.classList.add('active');
-            setTimeout(() => flashOverlay.classList.remove('active'), 200);
-            
-            const emojis = ['🍺', '🍻', '🥨', '🌭', '🎉', '🎊', '✨', '⭐', '💥'];
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const emoji = document.createElement('div');
-                    emoji.className = 'floating-emoji';
-                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                    emoji.style.left = (e.clientX + (Math.random() - 0.5) * 300) + 'px';
-                    emoji.style.top = e.clientY + 'px';
-                    emoji.style.fontSize = (1 + Math.random() * 3) + 'rem';
-                    document.body.appendChild(emoji);
-                    setTimeout(() => emoji.remove(), 3000);
-                }, i * 30);
-            }
-        });
-
         // Initialize
-        createBubbles();
-        createFloatingBeers();
         updateCountdown();
         setInterval(updateCountdown, 1000);
-
-        // Random sparkle on cards
-        setInterval(() => {
-            const cards = document.querySelectorAll('.time-card');
-            const randomCard = cards[Math.floor(Math.random() * cards.length)];
-            if (randomCard) {
-                randomCard.style.boxShadow = '0 0 80px rgba(245, 166, 35, 1), 0 0 120px rgba(255, 0, 128, 0.8)';
-                setTimeout(() => {
-                    randomCard.style.boxShadow = '';
-                }, 400);
-            }
-        }, 2000);
     </script>
 </body>
 </html>
