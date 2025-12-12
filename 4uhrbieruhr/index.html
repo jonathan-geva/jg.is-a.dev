@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4 Uhr Bier Uhr</title>
+    <title>Christmas Event</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=TheSans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
             --swisscom-navy: #001155;
             --swisscom-blue: #0066FF;
@@ -25,16 +24,18 @@
             --white-70: rgba(255, 255, 255, 0.7);
             --white-50: rgba(255, 255, 255, 0.5);
             --white-20: rgba(255, 255, 255, 0.2);
+            --christmas-green: #008000;
+            --christmas-red: #FF0000;
+            --christmas-gold: #FFD700;
+            --christmas-snow: #F0F8FF;
         }
-
         html, body {
             width: 100%;
             height: 100%;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-
         body {
-            background: linear-gradient(135deg, var(--swisscom-navy) 0%, var(--swisscom-purple) 50%, var(--swisscom-magenta) 100%);
+            background: linear-gradient(135deg, var(--christmas-green) 0%, var(--christmas-red) 50%, var(--christmas-gold) 100%);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
             display: flex;
@@ -46,14 +47,12 @@
             position: relative;
             overflow: hidden;
         }
-
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        /* Subtle animated background shapes */
+        /* Subtle animated background shapes - Christmas themed */
         .bg-shapes {
             position: fixed;
             top: 0;
@@ -64,14 +63,12 @@
             z-index: 0;
             overflow: hidden;
         }
-
         .bg-shape {
             position: absolute;
             border-radius: 50%;
             background: var(--white-20);
             filter: blur(80px);
         }
-
         .bg-shape:nth-child(1) {
             width: 600px;
             height: 600px;
@@ -79,7 +76,6 @@
             right: -100px;
             animation: float1 20s ease-in-out infinite;
         }
-
         .bg-shape:nth-child(2) {
             width: 400px;
             height: 400px;
@@ -87,17 +83,35 @@
             left: -100px;
             animation: float2 25s ease-in-out infinite;
         }
-
         @keyframes float1 {
             0%, 100% { transform: translate(0, 0); }
             50% { transform: translate(-50px, 50px); }
         }
-
         @keyframes float2 {
             0%, 100% { transform: translate(0, 0); }
             50% { transform: translate(50px, -30px); }
         }
-
+        /* Snowflakes */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .snowflake {
+            position: absolute;
+            background: var(--christmas-snow);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
         /* Swisscom Logo */
         .logo {
             position: absolute;
@@ -105,12 +119,10 @@
             left: 2rem;
             z-index: 10;
         }
-
         .logo svg {
             width: 140px;
             height: auto;
         }
-
         .container {
             text-align: center;
             padding: 2rem;
@@ -119,7 +131,6 @@
             position: relative;
             z-index: 1;
         }
-
         .title {
             font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 700;
@@ -128,14 +139,12 @@
             color: var(--white);
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
         }
-
         .subtitle {
             font-size: clamp(0.875rem, 2vw, 1.125rem);
             font-weight: 400;
             color: var(--white-70);
             margin-bottom: 3rem;
         }
-
         .countdown {
             display: flex;
             justify-content: center;
@@ -143,7 +152,6 @@
             gap: clamp(0.5rem, 2vw, 1.5rem);
             margin-bottom: 3rem;
         }
-
         .time-group {
             display: flex;
             flex-direction: column;
@@ -156,7 +164,6 @@
             min-width: clamp(80px, 18vw, 140px);
             border: 1px solid var(--white-20);
         }
-
         .time-value {
             font-size: clamp(2.5rem, 10vw, 5rem);
             font-weight: 700;
@@ -166,17 +173,14 @@
             transition: transform 0.15s ease, color 0.3s ease;
             font-variant-numeric: tabular-nums;
         }
-
         .time-value.pulse {
             animation: subtlePulse 0.3s ease;
         }
-
         @keyframes subtlePulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-
         .time-label {
             font-size: clamp(0.6rem, 1.2vw, 0.75rem);
             font-weight: 500;
@@ -185,7 +189,6 @@
             color: var(--white-70);
             margin-top: 0.75rem;
         }
-
         .separator {
             font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 300;
@@ -194,56 +197,46 @@
             align-self: center;
             margin-bottom: 1.5rem;
         }
-
         .status {
             font-size: clamp(0.875rem, 2vw, 1.125rem);
             font-weight: 400;
             color: var(--white-70);
             transition: color 0.3s ease;
         }
-
         /* Last 10 seconds animation */
         .final-countdown .time-group {
             animation: urgentPulse 1s ease-in-out infinite;
             background: rgba(228, 5, 33, 0.3);
             border-color: rgba(228, 5, 33, 0.5);
         }
-
         .final-countdown .time-value {
             color: var(--white);
         }
-
         @keyframes urgentPulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(228, 5, 33, 0.4); }
             50% { transform: scale(1.02); box-shadow: 0 0 30px 10px rgba(228, 5, 33, 0.2); }
         }
-
         .final-countdown .time-value.pulse {
             animation: finalPulse 0.5s ease;
         }
-
         @keyframes finalPulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-
         /* Celebration state */
         .celebration {
             position: relative;
         }
-
         .celebration .time-group {
             background: rgba(0, 170, 85, 0.3);
             border-color: rgba(0, 170, 85, 0.5);
         }
-
         .celebration .status {
             color: var(--white);
             font-weight: 600;
             font-size: clamp(1rem, 2.5vw, 1.5rem);
         }
-
         /* Celebration animation overlay */
         .celebration-overlay {
             position: fixed;
@@ -256,18 +249,15 @@
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-
         .celebration-overlay.active {
             opacity: 1;
         }
-
         .confetti {
             position: absolute;
             width: 10px;
             height: 10px;
             opacity: 0;
         }
-
         @keyframes confettiFall {
             0% {
                 transform: translateY(-20px) rotate(0deg);
@@ -278,8 +268,7 @@
                 opacity: 0;
             }
         }
-
-        /* Beer emoji animation */
+        /* Beer emoji animation - changed to Christmas tree for theme */
         .beer-container {
             position: fixed;
             top: 50%;
@@ -291,19 +280,16 @@
             pointer-events: none;
             font-size: 8rem;
         }
-
         .beer-container.active {
             transform: translate(-50%, -50%) scale(1);
             opacity: 1;
             animation: beerBounce 0.6s ease-in-out;
         }
-
         @keyframes beerBounce {
             0% { transform: translate(-50%, -50%) scale(0); }
             50% { transform: translate(-50%, -50%) scale(1.2); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
-
         /* Ripple effect on celebration */
         .ripple {
             position: fixed;
@@ -319,11 +305,9 @@
             pointer-events: none;
             z-index: 150;
         }
-
         .ripple.active {
             animation: rippleExpand 1s ease-out forwards;
         }
-
         @keyframes rippleExpand {
             0% {
                 width: 10px;
@@ -336,7 +320,6 @@
                 opacity: 0;
             }
         }
-
         /* Progress indicator */
         .progress-bar {
             width: 100%;
@@ -347,20 +330,17 @@
             border-radius: 2px;
             overflow: hidden;
         }
-
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--swisscom-magenta), var(--swisscom-red));
+            background: linear-gradient(90deg, var(--christmas-red), var(--christmas-green));
             transition: width 1s linear;
             border-radius: 2px;
-            box-shadow: 0 0 10px rgba(228, 0, 122, 0.5);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
-
         .celebration .progress-fill {
             background: linear-gradient(90deg, #00aa55, #00cc66);
             box-shadow: 0 0 10px rgba(0, 170, 85, 0.5);
         }
-
         /* Footer */
         .footer {
             position: absolute;
@@ -371,28 +351,26 @@
             color: var(--white-50);
             z-index: 1;
         }
-
         /* Responsive */
         @media (max-width: 600px) {
             .separator {
                 margin: 0 -0.25rem;
             }
-            
+           
             .logo {
                 top: 1rem;
                 left: 1rem;
             }
-            
+           
             .logo svg {
                 width: 100px;
             }
-            
+           
             .time-group {
                 padding: clamp(0.75rem, 2vw, 1.5rem);
                 border-radius: 12px;
             }
         }
-
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -400,10 +378,18 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-            
+           
             body {
                 animation: none;
             }
+        }
+        /* Normal theme overrides - will be applied via JS if not Christmas */
+        body.normal-theme {
+            background: linear-gradient(135deg, var(--swisscom-navy) 0%, var(--swisscom-purple) 50%, var(--swisscom-magenta) 100%);
+        }
+        .normal-theme .progress-fill {
+            background: linear-gradient(90deg, var(--swisscom-magenta), var(--swisscom-red));
+            box-shadow: 0 0 10px rgba(228, 0, 122, 0.5);
         }
     </style>
 </head>
@@ -413,7 +399,8 @@
         <div class="bg-shape"></div>
         <div class="bg-shape"></div>
     </div>
-
+    <!-- Snowflakes for Christmas theme -->
+    <div class="snowflakes" id="snowflakes"></div>
     <!-- Swisscom Logo -->
     <div class="logo">
         <svg viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -422,16 +409,13 @@
             <text x="50" y="28" fill="white" font-family="Inter, sans-serif" font-weight="700" font-size="22">swisscom</text>
         </svg>
     </div>
-
     <div class="celebration-overlay" id="celebration-overlay"></div>
-    <div class="beer-container" id="beer-emoji">🍺</div>
+    <div class="beer-container" id="beer-emoji">🎄</div>
     <div class="ripple" id="ripple"></div>
-
     <div class="container" id="container">
-        <h1 class="title">Christmas Event 🧑‍🎄🎄</h1>
-        <p class="subtitle">Countdown bis Christmas Event!!! • Freitag um 16:00 Uhr</p>
-
-        <div class="countdown">
+        <h1 class="title" id="title">Christmas Event 🧑‍🎄🎄</h1>
+        <p class="subtitle" id="subtitle">Countdown bis Christmas Event!!! • Freitag um 16:00 Uhr</p>
+        <div class="countdown" id="countdown">
             <div class="time-group">
                 <span class="time-value" id="days">0</span>
                 <span class="time-label">Tage</span>
@@ -452,23 +436,20 @@
                 <span class="time-label">Sekunden</span>
             </div>
         </div>
-
         <div class="progress-bar">
             <div class="progress-fill" id="progress"></div>
         </div>
-
         <p class="status" id="status">Bis zum Christmas Event</p>
     </div>
-
     <div class="footer">Zürich Time (Europe/Zurich)</div>
-
     <script>
         // Zürich timezone
         const TIMEZONE = 'Europe/Zurich';
         const TARGET_DAY = 5; // Friday (0 = Sunday, 5 = Friday)
         const TARGET_HOUR = 16;
         const TARGET_MINUTE = 0;
-
+        const CHRISTMAS_DATE = new Date(2025, 11, 12); // 12.12.2025 (month 11 for Dec)
+        const EVENT_END_HOUR = 8; // Samstag Morgen, z.B. 08:00 Uhr
         // DOM Elements
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
@@ -480,63 +461,91 @@
         const celebrationOverlay = document.getElementById('celebration-overlay');
         const beerEmoji = document.getElementById('beer-emoji');
         const ripple = document.getElementById('ripple');
-
+        const titleEl = document.getElementById('title');
+        const subtitleEl = document.getElementById('subtitle');
+        const countdownEl = document.getElementById('countdown');
+        const snowflakesEl = document.getElementById('snowflakes');
         let prevValues = { days: '', hours: '', minutes: '', seconds: '' };
         let celebrationActive = false;
         let lastTenSecondsActive = false;
-
+        let testMode = false;
+        let testStartTime;
         // Get current time in Zürich
         function getZurichTime() {
             return new Date(new Date().toLocaleString('en-US', { timeZone: TIMEZONE }));
         }
-
         // Get next Friday 16:00 in Zürich time
-        function getNextFriday16() {
+        function getNextTarget() {
             const now = getZurichTime();
             const target = new Date(now);
-            
-            // Set to 16:00
             target.setHours(TARGET_HOUR, TARGET_MINUTE, 0, 0);
-            
-            // Calculate days until Friday
             const currentDay = now.getDay();
-            let daysUntilFriday = TARGET_DAY - currentDay;
-            
-            // If it's Friday but past 16:00, or if it's after Friday, go to next week
-            if (daysUntilFriday < 0 || (daysUntilFriday === 0 && now >= target)) {
-                daysUntilFriday += 7;
+            let daysUntilTarget = TARGET_DAY - currentDay;
+            if (daysUntilTarget < 0 || (daysUntilTarget === 0 && now >= target)) {
+                daysUntilTarget += 7;
             }
-            
-            target.setDate(target.getDate() + daysUntilFriday);
-            
+            target.setDate(target.getDate() + daysUntilTarget);
             return target;
         }
-
-        // Check if it's currently "Feierabend" time (Friday 16:00-17:00)
-        function isFeierabendTime() {
-            const now = getZurichTime();
-            return now.getDay() === TARGET_DAY && 
-                   now.getHours() >= TARGET_HOUR && 
-                   now.getHours() < TARGET_HOUR + 1;
+        // Get event end time (Samstag Morgen nach dem Event)
+        function getEventEndTime(eventStart) {
+            const end = new Date(eventStart);
+            end.setDate(end.getDate() + 1); // Nächster Tag (Samstag)
+            end.setHours(EVENT_END_HOUR, 0, 0, 0);
+            return end;
         }
-
+        // Check if current target is the Christmas event
+        function isChristmasEvent(target) {
+            return target.getFullYear() === CHRISTMAS_DATE.getFullYear() &&
+                   target.getMonth() === CHRISTMAS_DATE.getMonth() &&
+                   target.getDate() === CHRISTMAS_DATE.getDate();
+        }
+        // Apply theme
+        function applyTheme(isChristmas) {
+            if (isChristmas) {
+                document.body.classList.remove('normal-theme');
+                titleEl.textContent = 'Christmas Event 🧑‍🎄🎄';
+                subtitleEl.textContent = 'Countdown bis Christmas Event!!! • Freitag um 16:00 Uhr';
+                statusEl.textContent = 'Bis zum Christmas Event';
+                beerEmoji.textContent = '🎄';
+                // Add snowflakes if not present
+                if (snowflakesEl.childNodes.length === 0) {
+                    for (let i = 0; i < 50; i++) {
+                        const snowflake = document.createElement('div');
+                        snowflake.className = 'snowflake';
+                        snowflake.style.left = Math.random() * 100 + '%';
+                        snowflake.style.width = Math.random() * 10 + 5 + 'px';
+                        snowflake.style.height = snowflake.style.width;
+                        snowflake.style.animationDuration = Math.random() * 10 + 5 + 's';
+                        snowflake.style.animationDelay = Math.random() * 5 + 's';
+                        snowflakesEl.appendChild(snowflake);
+                    }
+                }
+            } else {
+                document.body.classList.add('normal-theme');
+                titleEl.textContent = '4 Uhr Bier Uhr';
+                subtitleEl.textContent = 'Countdown bis 4 Uhr Bier Uhr • Freitag um 16:00 Uhr';
+                statusEl.textContent = 'Bis zur 4 Uhr Bier Uhr';
+                beerEmoji.textContent = '🍺';
+                // Remove snowflakes
+                snowflakesEl.innerHTML = '';
+            }
+        }
+        // Check if it's during the event period
+        function isDuringEvent(now, target) {
+            const eventEnd = getEventEndTime(target);
+            return now >= target && now < eventEnd;
+        }
+        // Check if it's Feierabend time (during event)
+        function isFeierabendTime(now, target) {
+            return now >= target && now.getHours() < TARGET_HOUR + 1 && now.getDay() === TARGET_DAY;
+        }
         // Calculate progress through the week
-        function getWeekProgress() {
-            const now = getZurichTime();
-            const target = getNextFriday16();
-            
-            // Total time in a week (7 days in ms)
+        function getWeekProgress(now, target) {
             const weekMs = 7 * 24 * 60 * 60 * 1000;
-            
-            // Time until target
             const timeUntil = target - now;
-            
-            // Progress is inverse of time remaining
-            const progress = ((weekMs - timeUntil) / weekMs) * 100;
-            
-            return Math.min(Math.max(progress, 0), 100);
+            return ((weekMs - timeUntil) / weekMs) * 100;
         }
-
         // Update display with subtle animation
         function updateValue(element, newValue, key) {
             if (prevValues[key] !== newValue) {
@@ -546,11 +555,9 @@
                 prevValues[key] = newValue;
             }
         }
-
         // Create confetti
         function createConfetti() {
-            const colors = ['#E40521', '#E4007A', '#6B1F7C', '#001155', '#ffffff'];
-            
+            const colors = isChristmasEvent(getNextTarget()) ? ['#FF0000', '#008000', '#FFD700', '#ffffff', '#F0F8FF'] : ['#E40521', '#E4007A', '#6B1F7C', '#001155', '#ffffff'];
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
@@ -561,72 +568,81 @@
                     confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
                     confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
                     celebrationOverlay.appendChild(confetti);
-                    
                     setTimeout(() => confetti.remove(), 4000);
                 }, i * 60);
             }
         }
-
         // Start celebration
-        function startCelebration() {
+        function startCelebration(isChristmas) {
             if (celebrationActive) return;
             celebrationActive = true;
-            
             containerEl.classList.add('celebration');
             celebrationOverlay.classList.add('active');
-            
             // Show ripple
             ripple.classList.add('active');
             setTimeout(() => ripple.classList.remove('active'), 1000);
-            
-            // Show beer emoji
+            // Show emoji
             setTimeout(() => {
                 beerEmoji.classList.add('active');
             }, 200);
-            
-            // Hide beer emoji after a while
+            // Hide emoji after a while
             setTimeout(() => {
                 beerEmoji.classList.remove('active');
             }, 3000);
-            
             // Create confetti
             createConfetti();
-            
             // Update status
-            statusEl.textContent = '🍵🎉 PROST! 3 Uhr Glüü Uhr! 🎉🍵';
+            statusEl.textContent = isChristmas ? '🎄🎉 Fröhliche Weihnachten! Viel Spaß am Event! 🎉🎄' : '🍺🎉 PROST! 4 Uhr Bier Uhr! 🎉🍺';
         }
-
         // End celebration
         function endCelebration() {
             celebrationActive = false;
             containerEl.classList.remove('celebration');
             celebrationOverlay.classList.remove('active');
-            statusEl.textContent = 'Bis zur 4 Uhr Bier Uhr';
         }
-
+        // Update elapsed time display
+        function updateElapsedTime(now, start) {
+            const diff = now - start;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            updateValue(daysEl, '0', 'days');
+            updateValue(hoursEl, String(hours).padStart(2, '0'), 'hours');
+            updateValue(minutesEl, String(minutes).padStart(2, '0'), 'minutes');
+            updateValue(secondsEl, String(seconds).padStart(2, '0'), 'seconds');
+            statusEl.textContent = 'Viel Spaß am Event!';
+            progressEl.style.width = '100%';
+            containerEl.classList.add('celebration');
+        }
         // Main update function
         function updateCountdown() {
-            const now = getZurichTime();
-            const target = getNextFriday16();
-            
-            // Check for Feierabend time
-            const isFeierabend = isFeierabendTime();
-            
+            const now = testMode ? new Date(testStartTime.getTime() + (Date.now() - testStartTime)) : getZurichTime();
+            let target = getNextTarget();
+            const isChristmas = isChristmasEvent(target);
+            applyTheme(isChristmas);
+            if (isDuringEvent(now, target)) {
+                // During event: show elapsed time
+                endCelebration(); // No active celebration animations, but keep celebration class for styling
+                updateElapsedTime(now, target);
+                return;
+            } else if (now >= getEventEndTime(target)) {
+                // After event end: move to next target
+                target = getNextTarget(); // Recalculate for next week
+            }
+            // Normal countdown or Feierabend
+            const isFeierabend = isFeierabendTime(now, target);
             if (isFeierabend && !celebrationActive) {
-                startCelebration();
+                startCelebration(isChristmas);
             } else if (!isFeierabend && celebrationActive) {
                 endCelebration();
             }
-            
             // Calculate time difference
-            const diff = Math.max(target - now, 0);
-            
+            const diff = testMode ? 10000 - (Date.now() - testStartTime) : Math.max(target - now, 0); // In test mode, start from 10 seconds
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            // Check for last 10 seconds (only when not in celebration mode)
+            // Check for last 10 seconds
             const totalSeconds = Math.floor(diff / 1000);
             if (!isFeierabend && totalSeconds <= 10 && totalSeconds > 0 && !lastTenSecondsActive) {
                 lastTenSecondsActive = true;
@@ -637,25 +653,39 @@
                     containerEl.classList.remove('final-countdown');
                 }
             }
-            
             // Update display
             updateValue(daysEl, String(days), 'days');
             updateValue(hoursEl, String(hours).padStart(2, '0'), 'hours');
             updateValue(minutesEl, String(minutes).padStart(2, '0'), 'minutes');
             updateValue(secondsEl, String(seconds).padStart(2, '0'), 'seconds');
-            
             // Update progress bar
             if (isFeierabend) {
                 progressEl.style.width = '100%';
             } else {
-                const progress = getWeekProgress();
+                const progress = getWeekProgress(now, target);
                 progressEl.style.width = progress.toFixed(2) + '%';
             }
+            // In test mode, trigger celebration when diff <= 0
+            if (testMode && diff <= 0) {
+                startCelebration(isChristmas);
+            }
         }
-
+        // Test mode activation on spacebar
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !testMode) {
+                testMode = true;
+                testStartTime = Date.now();
+                lastTenSecondsActive = false;
+                celebrationActive = false;
+                containerEl.classList.remove('celebration', 'final-countdown');
+                celebrationOverlay.classList.remove('active');
+                statusEl.textContent = 'Test Mode: Letzte 10 Sekunden';
+            }
+        });
         // Initialize
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
         // Auto-reload on content update
         setInterval(async () => {
             try {
